@@ -135,3 +135,9 @@ class SingleSignOnClient(AWSBaseClientMixin):
             "SWBUPService.DescribeUsers", {"UserIds": user_ids}
         )
         return response["Users"]
+
+    def verify_email(self, user_id, email_id):
+        response = self.make_request(
+            "SWBUPService.VerifyEmail", {"UserId": user_id, "EmailId": email_id}
+        )
+        return response
