@@ -8,6 +8,8 @@ class SingleSignOnClient(AWSBaseClientMixin):
         self.service = "userpool"
         self.endpoint = f"https://up.sso.{region}.amazonaws.com/"
 
+        self._auth()
+
         self.sso_admin = self.session.client("sso-admin")
         self.identitystore = self.session.client("identitystore")
 
@@ -127,3 +129,9 @@ class SingleSignOnClient(AWSBaseClientMixin):
             )["GroupMemberships"]
 
         return memberships
+
+    def describe_users(self, user_ids):
+        response = self.make_request(
+            "SWBUPService.DescribeUsers", {"UserIds": user_ids}
+        )
+        return response["Users"]

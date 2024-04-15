@@ -22,6 +22,7 @@ class AWSBaseClientMixin:
             "x-amz-user-agent": self.AMZ_USER_AGENT,
         }
 
+        self.auth = None
         self.session = Session(access_key, secret_key, token)
 
         self.region = region
@@ -42,11 +43,8 @@ class AWSBaseClientMixin:
             session_token=credentials.token,
         )
 
-    def _make_request(self, target, data):
+    def make_request(self, target, data):
         assert self.endpoint is not None, "Endpoint must be set before making a request"
-
-        if self.auth is None:
-            self._auth()
 
         self.headers.update(
             {
