@@ -1,4 +1,4 @@
-from inia.base_client import AWSBaseClientMixin
+from inia.client import AWSBaseClientMixin
 
 
 class SingleSignOnClient(AWSBaseClientMixin):
@@ -131,13 +131,13 @@ class SingleSignOnClient(AWSBaseClientMixin):
         return memberships
 
     def describe_users(self, user_ids):
-        response = self.make_request(
+        response = self.post(
             "SWBUPService.DescribeUsers", {"UserIds": user_ids}
         )
         return response["Users"]
 
     def verify_email(self, user_id, email_id):
-        response = self.make_request(
+        response = self.post(
             "SWBUPService.VerifyEmail", {"UserId": user_id, "EmailId": email_id}
         )
         return response

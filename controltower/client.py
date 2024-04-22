@@ -11,14 +11,14 @@ class ControlTowerClient(AWSBaseClientMixin):
         self._auth()
 
     def register_ou(self, ou_id, ou_name):
-        response = self.make_request(
+        response = self.post(
             "AWSBlackbeardService.ManageOrganizationalUnit",
             {"OrganizationalUnitId": ou_id, "OrganizationalUnitName": ou_name},
         )
         return response["OperationArn"]
 
     def describe_register_ou(self, operation_id):
-        response = self.make_request(
+        response = self.post(
             "AWSBlackbeardService.DescribeRegisterOrganizationalUnitOperation",
             {"OperationId": operation_id},
         )
