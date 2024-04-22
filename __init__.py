@@ -1,1 +1,1 @@
-from .client import AWSBaseClientMixin
+from .base_client import AWSBaseClientMixin

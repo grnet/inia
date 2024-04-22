@@ -1,4 +1,4 @@
-from inia.client import AWSBaseClientMixin
+from inia.base_client import AWSBaseClientMixin
 
 
 class SingleSignOnClient(AWSBaseClientMixin):
