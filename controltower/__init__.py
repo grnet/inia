@@ -1,1 +1,1 @@
-from .client import SingleSignOnClient
+from .client import ControlTowerClient
