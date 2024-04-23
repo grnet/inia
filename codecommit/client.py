@@ -9,25 +9,28 @@ class CodeCommit(AWSBaseClientMixin):
 
         self.service = "codecommit"
         self.endpoint = f"https://codecommit.{region}.amazonaws.com/"
-
+        self.repository_name = "aft-account-request"
         self._auth()
 
-    def get_references(self, repository_name):
-        payload = {"repositoryName": "aft-account-request"}
+    def make_payload(self, **kwargs):
+        payload = {"repositoryName": self.repository_name}
+        payload.update(kwargs)
+        return payload
+
+    def get_references(self):
+        payload = self.make_payload()
         response = self.make_request("CodeCommit_20150413.GetReferences", payload)
         return response["references"][0]["commitId"]
 
     def get_object_identifier(self, commit_id):
-        payload = {
-            "repositoryName": "aft-account-request",
-            "path": "terraform/account-requests.tf",
-            "commitSpecifier": commit_id,
-        }
+        payload = self.make_payload(
+            path="terraform/account-requests.tf", commitSpecifier=commit_id
+        )
         response = self.make_request("CodeCommit_20150413.GetObjectIdentifier", payload)
         return response["identifier"]
 
     def get_blob(self, blob_id):
-        payload = {"repositoryName": "aft-account-request", "blobId": blob_id}
+        payload = self.make_payload(blobId=blob_id)
         response = self.make_request("CodeCommit_20150413.GetBlob", payload)
         return response["content"]
 
@@ -36,21 +39,20 @@ class CodeCommit(AWSBaseClientMixin):
         file_content,
         commit_message,
         parent_commit_id,
-        repository_name="aft-account-request",
         branch_name="main",
         file_path="terraform/account-requests.tf",
         name="DevOps Bot",
         email="platform_dev@lists.grnet.gr",
     ):
-        payload = {
-            "fileContent": base64.b64encode(file_content).decode("utf-8"),
-            "repositoryName": repository_name,
-            "commitMessage": commit_message,
-            "branchName": branch_name,
-            "parentCommitId": parent_commit_id,
-            "filePath": file_path,
-            "name": name,
-            "email": email,
-        }
+        file_content = base64.b64encode(file_content).decode("utf-8")
+        payload = self.make_payload(
+            fileContent=file_content,
+            commitMessage=commit_message,
+            branchName=branch_name,
+            parentCommitId=parent_commit_id,
+            filePath=file_path,
+            name=name,
+            email=email,
+        )
         response = self.make_request("CodeCommit_20150413.PutFile", payload)
         return response
