@@ -1,5 +1,3 @@
-import base64
-
 from inia.client import AWSBaseClientMixin
 
 
@@ -44,7 +42,6 @@ class CodeCommit(AWSBaseClientMixin):
         name="DevOps Bot",
         email="platform_dev@lists.grnet.gr",
     ):
-        file_content = base64.b64encode(file_content).decode("utf-8")
         payload = self.make_payload(
             fileContent=file_content,
             commitMessage=commit_message,
