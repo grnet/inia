@@ -43,7 +43,20 @@ class AWSBaseClientMixin:
             session_token=credentials.token,
         )
 
-    def make_request(self, target, data):
+    def get(self, target):
+        assert self.endpoint is not None, "Endpoint must be set before making a request"
+
+        self.headers.update(
+            {
+                "x-amz-target": target,
+            }
+        )
+        response = requests.get(self.endpoint, auth=self.auth, headers=self.headers)
+        response.raise_for_status()
+
+        return response.json()
+
+    def post(self, target, data):
         assert self.endpoint is not None, "Endpoint must be set before making a request"
 
         self.headers.update(
