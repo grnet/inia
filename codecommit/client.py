@@ -17,19 +17,19 @@ class CodeCommitClient(AWSBaseClientMixin):
 
     def get_references(self):
         payload = self.make_payload()
-        response = self.make_request("CodeCommit_20150413.GetReferences", payload)
+        response = self.post("CodeCommit_20150413.GetReferences", payload)
         return response["references"][0]["commitId"]
 
     def get_object_identifier(self, commit_id):
         payload = self.make_payload(
             path="terraform/account-requests.tf", commitSpecifier=commit_id
         )
-        response = self.make_request("CodeCommit_20150413.GetObjectIdentifier", payload)
+        response = self.post("CodeCommit_20150413.GetObjectIdentifier", payload)
         return response["identifier"]
 
     def get_blob(self, blob_id):
         payload = self.make_payload(blobId=blob_id)
-        response = self.make_request("CodeCommit_20150413.GetBlob", payload)
+        response = self.post("CodeCommit_20150413.GetBlob", payload)
         return response["content"]
 
     def put_file(
@@ -51,5 +51,5 @@ class CodeCommitClient(AWSBaseClientMixin):
             name=name,
             email=email,
         )
-        response = self.make_request("CodeCommit_20150413.PutFile", payload)
+        response = self.post("CodeCommit_20150413.PutFile", payload)
         return response
