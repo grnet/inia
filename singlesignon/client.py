@@ -141,3 +141,9 @@ class SingleSignOnClient(AWSBaseClientMixin):
             "SWBUPService.VerifyEmail", {"UserId": user_id, "EmailId": email_id}
         )
         return response
+
+    def update_password(self, user_id, mode='EMAIL'):
+        response = self.post(
+            "SWBUPService.UpdatePassword", {"UserId": user_id, "PasswordMode": mode}
+        )
+        return response
