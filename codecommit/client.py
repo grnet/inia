@@ -1,7 +1,7 @@
 from inia.client import AWSBaseClientMixin
 
 
-class CodeCommit(AWSBaseClientMixin):
+class CodeCommitClient(AWSBaseClientMixin):
     def __init__(self, access_key, secret_key, region, token=None):
         super().__init__(access_key, secret_key, token=token, region=region)
 
