@@ -2,7 +2,7 @@ from inia.client import AWSBaseClientMixin
 
 
 class SingleSignOnClient(AWSBaseClientMixin):
-    def __init__(self, access_key, secret_key, region, token=None):
+    def __init__(self, access_key, secret_key, token=None, region="eu-central-1"):
         super().__init__(access_key, secret_key, token=token, region=region)
 
         self.service = "userpool"
@@ -131,9 +131,7 @@ class SingleSignOnClient(AWSBaseClientMixin):
         return memberships
 
     def describe_users(self, user_ids):
-        response = self.post(
-            "SWBUPService.DescribeUsers", {"UserIds": user_ids}
-        )
+        response = self.post("SWBUPService.DescribeUsers", {"UserIds": user_ids})
         return response["Users"]
 
     def verify_email(self, user_id, email_id):
@@ -142,7 +140,7 @@ class SingleSignOnClient(AWSBaseClientMixin):
         )
         return response
 
-    def update_password(self, user_id, mode='EMAIL'):
+    def update_password(self, user_id, mode="EMAIL"):
         response = self.post(
             "SWBUPService.UpdatePassword", {"UserId": user_id, "PasswordMode": mode}
         )

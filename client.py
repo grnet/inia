@@ -1,5 +1,4 @@
 import requests
-
 from boto3.session import Session
 from requests_aws4auth import AWS4Auth
 
@@ -12,7 +11,7 @@ class AWSBaseClientMixin:
         access_key,
         secret_key,
         token=None,
-        region=None,
+        region="eu-central-1",
         service=None,
         endpoint=None,
     ):
