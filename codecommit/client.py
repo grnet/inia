@@ -5,24 +5,33 @@ class CodeCommitClient(AWSBaseClientMixin):
     def __init__(self, access_key, secret_key, token=None, region="eu-central-1"):
         super().__init__(access_key, secret_key, token=token, region=region)
 
+        self.repository_name = None
+
         self.service = "codecommit"
         self.endpoint = f"https://codecommit.{region}.amazonaws.com/"
-        self.repository_name = "aft-account-request"
         self._auth()
+
+    def set_repo(self, repository_name):
+        self.repository_name = repository_name
 
     def make_payload(self, **kwargs):
         payload = {"repositoryName": self.repository_name}
         payload.update(kwargs)
         return payload
 
+    def get_repository(self):
+        payload = self.make_payload()
+        response = self.post("CodeCommit_20150413.GetRepository", payload)
+        return response["repositoryMetadata"]
+
     def get_references(self):
         payload = self.make_payload()
         response = self.post("CodeCommit_20150413.GetReferences", payload)
         return response["references"][0]["commitId"]
 
-    def get_object_identifier(self, commit_id):
+    def get_object_identifier(self, path, commit_id):
         payload = self.make_payload(
-            path="terraform/account-requests.tf", commitSpecifier=commit_id
+            path=path, commitSpecifier=commit_id
         )
         response = self.post("CodeCommit_20150413.GetObjectIdentifier", payload)
         return response["identifier"]
@@ -37,10 +46,10 @@ class CodeCommitClient(AWSBaseClientMixin):
         file_content,
         commit_message,
         parent_commit_id,
-        branch_name="main",
-        file_path="terraform/account-requests.tf",
-        name="DevOps Bot",
-        email="platform_dev@lists.grnet.gr",
+        branch_name,
+        file_path,
+        name,
+        email,
     ):
         payload = self.make_payload(
             fileContent=file_content,
