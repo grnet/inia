@@ -1,5 +1,4 @@
 import json
-import os
 from typing import Any, Dict
 
 import requests
@@ -56,17 +55,3 @@ class RackspaceClient:
         response = requests.post(url, headers=headers, data=data)
         response.raise_for_status()
         return response.json()
-
-    def setup_aws_credentials(self, credentials: Dict[str, str]) -> Dict[str, str]:
-        env_keys = {
-            "accessKeyId": "AWS_ACCESS_KEY_ID",
-            "secretAccessKey": "AWS_SECRET_ACCESS_KEY",
-            "sessionToken": "AWS_SESSION_TOKEN",
-        }
-
-        for key, env_key in env_keys.items():
-            os.environ[env_key] = credentials[key]
-        os.environ["AWS_DEFAULT_REGION"] = self.DEFAULT_REGION
-        return {env_key: credentials[key] for key, env_key in env_keys.items()} | {
-            "region": self.DEFAULT_REGION
-        }
