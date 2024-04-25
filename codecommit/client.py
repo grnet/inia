@@ -19,21 +19,32 @@ class CodeCommitClient(AWSBaseClientMixin):
         payload.update(kwargs)
         return payload
 
+    def list_repositories(self, order="ascending", sortBy="lastModifiedDate"):
+        payload = {"order": order, "sortBy": sortBy}
+        response = self.post("CodeCommit_20150413.ListRepositories", payload)
+        return response["repositories"]
+
     def get_repository(self):
         payload = self.make_payload()
         response = self.post("CodeCommit_20150413.GetRepository", payload)
         return response["repositoryMetadata"]
+
+    def get_commit_history(self, commit_id, limit=20):
+        payload = self.make_payload(commitId=commit_id, limit=limit)
+        response = self.post("CodeCommit_20150413.GetCommitHistory", payload)
+        return response["commitMetadatas"]
 
     def get_references(self):
         payload = self.make_payload()
         response = self.post("CodeCommit_20150413.GetReferences", payload)
         return response["references"][0]["commitId"]
 
-    def get_object_identifier(self, path, commit_id):
-        payload = self.make_payload(
-            path=path, commitSpecifier=commit_id
-        )
-        response = self.post("CodeCommit_20150413.GetObjectIdentifier", payload)
+    def get_object_identifier(self, commitSpecifier, path=None):
+        payload = {"commitSpecifier": commitSpecifier}
+        if path is not None:
+            payload["path"] = path
+        payload = self.make_payload(**payload)
+        response = self.post("CodeCommit_20150413.GetObjectldentifier", payload)
         return response["identifier"]
 
     def get_blob(self, blob_id):
