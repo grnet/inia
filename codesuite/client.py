@@ -11,6 +11,7 @@ class CodeSuiteClient(AWSBaseClientMixin):
         self.email = None
 
         self.codecommit = self.session.client("codecommit")
+        self.codebuild = self.session.client("codebuild")
 
     def get_repository(self, repository_name):
         response = self.codecommit.get_repository(repositoryName=repository_name)
