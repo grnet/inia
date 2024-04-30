@@ -12,7 +12,7 @@ class CodeSuiteClient(AWSBaseClientMixin):
 
         self.codecommit = self.session.client("codecommit")
         self.codebuild = self.session.client("codebuild")
-        self.cloudwatch = self.session.client("cloudwatch")
+        self.cloudwatch_logs = self.session.client("logs")
 
     def get_repository(self, repository_name):
         response = self.codecommit.get_repository(repositoryName=repository_name)
@@ -66,15 +66,24 @@ class CodeSuiteClient(AWSBaseClientMixin):
         self,
         log_group_name,
         log_stream_name,
-        next_token=None,
         start_from_head=True,
-        unmask=False,
+        unmask=True,
     ):
-        response = self.cloudwatch.get_log_events(
-            log_group_name,
-            log_stream_name,
-            next_token,
-            start_from_head,
-            unmask,
-        )
-        return response
+        logs = []
+        if self.cloudwatch_logs.can_paginate("get_log_events"):
+            paginator = self.cloudwatch_logs.get_paginator("get_log_events")
+            for page in paginator.paginate(
+                logGroupName=log_group_name,
+                logStreamName=log_stream_name,
+                startFromHead=start_from_head,
+                unmask=unmask,
+            ):
+                logs.extend(page["events"])
+        else:
+            logs = self.cloudwatch_logs.get_log_events(
+                logGroupName=log_group_name,
+                logStreamName=log_stream_name,
+                startFromHead=start_from_head,
+                unmask=unmask,
+            )["events"]
+        return logs
