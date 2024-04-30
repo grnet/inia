@@ -52,3 +52,11 @@ class CodeSuiteClient(AWSBaseClientMixin):
             email=self.email,
         )
         return {k: v for k, v in response.items() if k not in ["ResponseMetadata"]}
+
+    def list_builds(self):
+        response = self.codebuild.list_builds()
+        return response
+
+    def get_batch_builds(self, ids):
+        response = self.codebuild.batch_get_builds(ids=ids)
+        return response
