@@ -12,7 +12,7 @@ class CodeSuiteClient(AWSBaseClientMixin):
 
         self.codecommit = self.session.client("codecommit")
         self.codebuild = self.session.client("codebuild")
-        self.cloudwatch_logs = self.session.client("logs")
+        self.logs = self.session.client("logs")
 
     def get_repository(self, repository_name):
         response = self.codecommit.get_repository(repositoryName=repository_name)
@@ -55,35 +55,41 @@ class CodeSuiteClient(AWSBaseClientMixin):
         return {k: v for k, v in response.items() if k not in ["ResponseMetadata"]}
 
     def list_builds(self):
-        response = self.codebuild.list_builds()
-        return response
+        ids = []
 
-    def get_batch_builds(self, ids):
-        response = self.codebuild.batch_get_builds(ids=ids)
-        return response
-
-    def get_log_events(
-        self,
-        log_group_name,
-        log_stream_name,
-        start_from_head=True,
-        unmask=True,
-    ):
-        logs = []
-        if self.cloudwatch_logs.can_paginate("get_log_events"):
-            paginator = self.cloudwatch_logs.get_paginator("get_log_events")
-            for page in paginator.paginate(
-                logGroupName=log_group_name,
-                logStreamName=log_stream_name,
-                startFromHead=start_from_head,
-                unmask=unmask,
-            ):
-                logs.extend(page["events"])
+        if self.codebuild.can_paginate("list_builds"):
+            paginator = self.codebuild.get_paginator("list_builds")
+            for page in paginator.paginate():
+                ids.extend(page["ids"])
         else:
-            logs = self.cloudwatch_logs.get_log_events(
-                logGroupName=log_group_name,
-                logStreamName=log_stream_name,
-                startFromHead=start_from_head,
-                unmask=unmask,
+            ids = self.codebuild.list_builds()["ids"]
+
+        return ids
+
+    def batch_get_builds(self, ids):
+        builds = []
+
+        if self.codebuild.can_paginate("batch_get_builds"):
+            paginator = self.codebuild.get_paginator("batch_get_builds")
+            for page in paginator.paginate(ids=ids):
+                builds.extend(page["builds"])
+        else:
+            builds = self.codebuild.batch_get_builds(ids=ids)["builds"]
+
+        return builds
+
+    def get_log_events(self, log_group_name, log_stream_name):
+        events = []
+
+        if self.logs.can_paginate("get_log_events"):
+            paginator = self.logs.get_paginator("get_log_events")
+            for page in paginator.paginate(
+                logGroupName=log_group_name, logStreamName=log_stream_name
+            ):
+                events.extend(page["events"])
+        else:
+            events = self.logs.get_log_events(
+                logGroupName=log_group_name, logStreamName=log_stream_name
             )["events"]
-        return logs
+
+        return events
