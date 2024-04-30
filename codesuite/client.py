@@ -12,6 +12,7 @@ class CodeSuiteClient(AWSBaseClientMixin):
 
         self.codecommit = self.session.client("codecommit")
         self.codebuild = self.session.client("codebuild")
+        self.cloudwatch = self.session.client("cloudwatch")
 
     def get_repository(self, repository_name):
         response = self.codecommit.get_repository(repositoryName=repository_name)
@@ -59,4 +60,21 @@ class CodeSuiteClient(AWSBaseClientMixin):
 
     def get_batch_builds(self, ids):
         response = self.codebuild.batch_get_builds(ids=ids)
+        return response
+
+    def get_log_events(
+        self,
+        log_group_name,
+        log_stream_name,
+        next_token=None,
+        start_from_head=True,
+        unmask=False,
+    ):
+        response = self.cloudwatch.get_log_events(
+            log_group_name,
+            log_stream_name,
+            next_token,
+            start_from_head,
+            unmask,
+        )
         return response
