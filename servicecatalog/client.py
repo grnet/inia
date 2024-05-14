@@ -11,11 +11,11 @@ class ServiceCatalogClient(AWSBaseClientMixin):
             AccessLevelFilter={"Key": "Account", "Value": "self"}
         )
 
-    def get_provisioned_product_id(self, product_name):
+    def get_provisioned_product(self, product_name):
         pp = self._search_provisioned_products()
         return next(
             (
-                product["Id"]
+                product
                 for product in pp["ProvisionedProducts"]
                 if product["Name"] == product_name
             ),
