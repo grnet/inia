@@ -59,6 +59,30 @@ class ControlTowerClient(AWSBaseClientMixin):
     def describe_account(self, account_id):
         return self.organizations.describe_account(AccountId=account_id)
 
+    def list_delegated_administrators(
+        self, account_id, service_principal="sso.amazonaws.com"
+    ):
+        return self.organizations.list_delegated_administrators(
+            ServicePrincipal=service_principal,
+            AccountId=account_id,
+        )
+
+    def register_delegated_administrator(
+        self, account_id, service_principal="sso.amazonaws.com"
+    ):
+        return self.organizations.register_delegated_administrator(
+            ServicePrincipal=service_principal,
+            AccountId=account_id,
+        )
+
+    def deregister_delegated_administrator(
+        self, account_id, service_principal="sso.amazonaws.com"
+    ):
+        return self.organizations.deregister_delegated_administrator(
+            ServicePrincipal=service_principal,
+            AccountId=account_id,
+        )
+
     def list_managed_ous(self):
         response = self.post(
             "AWSBlackbeardService.ListManagedOrganizationalUnits",
