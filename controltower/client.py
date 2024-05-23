@@ -59,13 +59,20 @@ class ControlTowerClient(AWSBaseClientMixin):
     def describe_account(self, account_id):
         return self.organizations.describe_account(AccountId=account_id)
 
-    def list_delegated_administrators(
-        self, account_id, service_principal="sso.amazonaws.com"
-    ):
-        return self.organizations.list_delegated_administrators(
-            ServicePrincipal=service_principal,
-            AccountId=account_id,
-        )
+    def list_delegated_administrators(self, service_principal="sso.amazonaws.com"):
+        adminstrators = []
+        if self.organizations.can_paginate("list_delegated_administrators"):
+            paginator = self.organizations.get_paginator(
+                "list_delegated_administrators"
+            )
+            for page in paginator.paginate(ServicePrincipal=service_principal):
+                adminstrators.extend(page["DelegatedAdministrators"])
+        else:
+            adminstrators = self.organizations.list_delegated_administrators(
+                ServicePrincipal=service_principal
+            )["DelegatedAdministrators"]
+
+        return adminstrators
 
     def register_delegated_administrator(
         self, account_id, service_principal="sso.amazonaws.com"
