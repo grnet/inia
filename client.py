@@ -22,9 +22,9 @@ class AWSBaseClientMixin:
         }
 
         self.auth = None
-        self.session = Session(access_key, secret_key, token)
-
         self.region = region
+        self.session = Session(access_key, secret_key, token, region_name=self.region)
+
         self.service = service
         self.endpoint = endpoint
 
