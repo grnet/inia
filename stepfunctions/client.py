@@ -10,6 +10,17 @@ class StepFunctionsClient(AWSBaseClientMixin):
         self._auth()
         self.sfn = self.session.client("stepfunctions")
 
+    def list_state_machines(self, max_results=100):
+        state_machines = []
+        if self.sfn.can_paginate("list_state_machines"):
+            paginator = self.sfn.get_paginator("list_state_machines")
+            for page in paginator.paginate(maxResults=max_results):
+                state_machines.extend(page["stateMachines"])
+        else:
+            state_machines = self.sfn.list_state_machines(maxResults=max_results)["stateMachines"]
+
+        return state_machines
+
     def start_execution(self, state_machine_arn, input=None):
         response = self.sfn.start_execution(
             stateMachineArn=state_machine_arn,
