@@ -17,7 +17,9 @@ class StepFunctionsClient(AWSBaseClientMixin):
             for page in paginator.paginate(maxResults=max_results):
                 state_machines.extend(page["stateMachines"])
         else:
-            state_machines = self.sfn.list_state_machines(maxResults=max_results)["stateMachines"]
+            state_machines = self.sfn.list_state_machines(maxResults=max_results)[
+                "stateMachines"
+            ]
 
         return state_machines
 
@@ -28,6 +30,9 @@ class StepFunctionsClient(AWSBaseClientMixin):
         )
 
         return response
+
+    def describe_execution(self, execution_arn):
+        return self.sfn.describe_execution(executionArn=execution_arn)
 
     def get_execution_history(
         self,
