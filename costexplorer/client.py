@@ -10,32 +10,13 @@ class CostExplorerClient(AWSBaseClientMixin):
         self._auth()
         self.ce = self.session.client("ce")
 
-    def get_cost_and_usage(
-        self,
-        time_period,
-        granularity,
-        filter,
-        metrics,
-        group_by,
-    ):
+    def get_cost_and_usage(self, **kwargs):
         results = []
         if self.ce.can_paginate("get_cost_and_usage"):
             paginator = self.ce.get_paginator("get_cost_and_usage")
-            for page in paginator.paginate(
-                TimePeriod=time_period,
-                Granularity=granularity,
-                Filter=filter,
-                Metrics=metrics,
-                GroupBy=group_by,
-            ):
+            for page in paginator.paginate(**kwargs):
                 results.extend(page["results"])
         else:
-            results = self.ce.get_cost_and_usage(
-                TimePeriod=time_period,
-                Granularity=granularity,
-                Filter=filter,
-                Metrics=metrics,
-                GroupBy=group_by,
-            )
+            results = self.ce.get_cost_and_usage(**kwargs)
 
         return results
