@@ -50,7 +50,7 @@ class StepFunctionsClient(AWSBaseClientMixin):
     def get_execution_history(
         self,
         execution_arn,
-        max_results=300,
+        max_results=1000,
         reverse_order=False,
         include_execution_data=True,
     ):
