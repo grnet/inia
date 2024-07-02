@@ -7,8 +7,8 @@ class RackspaceClient:
     CREDENTIALS_URL_TEMPLATE = (
         "https://accounts.api.manage.rackspace.com/v0/awsAccounts/{}/credentials"
     )
-    PROVISION_ACCOUNT_DEFAULTS_URL = "https://manage.rackspace.com/aws/api/accounts/v0/awsAccounts/{}/provisioningWorkflows"
-    GET_PROVISION_DETAILS_URL = "https://manage.rackspace.com/aws/api/accounts/v0/awsAccounts/{}/provisioningDetails"
+    PROVISION_ACCOUNT_DEFAULTS_URL = "https://accounts.api.manage.rackspace.com/v0/awsAccounts/{}/provisioningWorkflows"
+    GET_PROVISION_DETAILS_URL = "https://accounts.api.manage.rackspace.com/v0/awsAccounts/{}/provisioningDetails"
 
     def __init__(self, username, rackspace_api_key):
         self.username = username
