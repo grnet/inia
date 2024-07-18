@@ -117,3 +117,17 @@ class ControlTowerClient(AWSBaseClientMixin):
             {"OperationId": operation_id},
         )
         return response
+
+    def deregister_managed_account(self, account_id):
+        response = self.post(
+            "AWSBlackbeardService.DeregisterManagedAccount",
+            {"AccountId": account_id},
+        )
+        return response
+
+    def deregister_ou(self, ou_id):
+        response = self.post(
+            "AWSBlackbeardService.DeregisterOrganizationalUnit",
+            {"OrganizationalUnitId": ou_id},
+        )
+        return response
