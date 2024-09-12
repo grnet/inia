@@ -55,14 +55,19 @@ class AWSBaseClientMixin:
 
         return response.json()
 
-    def post(self, target, data):
+    def post(self, target, data, headers_override=None):
         assert self.endpoint is not None, "Endpoint must be set before making a request"
 
         self.headers.update(
             {
                 "x-amz-target": target,
+
             }
         )
+
+        if headers_override is not None:
+            self.headers.update(headers_override)
+
         response = requests.post(
             self.endpoint, auth=self.auth, headers=self.headers, json=data
         )
