@@ -1,9 +1,12 @@
-from inia.client import AWSBaseClientMixin
+from inia.client import AWSBotoClientMixin
 
 
-class ServiceCatalogClient(AWSBaseClientMixin):
+class ServiceCatalogClient(AWSBotoClientMixin):
     def __init__(self, access_key, secret_key, token=None, region="eu-central-1"):
-        super().__init__(access_key, secret_key, token=token, region=region)
+        super().__init__(
+            access_key=access_key, secret_key=secret_key, token=token, region=region
+        )
+
         self.servicecatalog = self.session.client("servicecatalog")
 
     def _search_provisioned_products(self):

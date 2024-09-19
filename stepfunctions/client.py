@@ -1,13 +1,17 @@
-from inia.client import AWSBaseClientMixin
+from inia.client import AWSCustomClientMixin
 
 
-class StepFunctionsClient(AWSBaseClientMixin):
+class StepFunctionsClient(AWSCustomClientMixin):
     def __init__(self, access_key, secret_key, token=None, region="eu-central-1"):
-        super().__init__(access_key, secret_key, token=token, region=region)
+        super().__init__(
+            access_key=access_key, secret_key=secret_key, token=token, region=region
+        )
 
         self.service = "stepfunctions"
         self.endpoint = f"https://states.{region}.amazonaws.com/"
+
         self._auth()
+
         self.sfn = self.session.client("stepfunctions")
 
     def list_state_machines(self):

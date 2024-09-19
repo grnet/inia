@@ -3,28 +3,47 @@ from boto3.session import Session
 from requests_aws4auth import AWS4Auth
 
 
-class AWSBaseClientMixin:
-    AMZ_USER_AGENT = "aws-sdk-js/2.1467.0 promise"
+class AWSBotoSessionMixin:
+    def __init__(
+        self,
+        session=None,
+        access_key=None,
+        secret_key=None,
+        token=None,
+        region="eu-central-1",
+    ):
+        self.region = region
+        if session:
+            self.session = session
+        else:
+            self.session = Session(
+                access_key, secret_key, token, region_name=self.region
+            )
+
+
+class AWSCustomClientMixin(AWSBotoSessionMixin):
+    AMZ_JSON_VERSION = "1.1"
+    AWS_SDK_VERSION = "2.1467.0"
 
     def __init__(
         self,
-        access_key,
-        secret_key,
+        session=None,
+        access_key=None,
+        secret_key=None,
         token=None,
         region="eu-central-1",
         service=None,
         endpoint=None,
     ):
-        self.headers = {
-            "accept": "*/*",
-            "content-type": "application/x-amz-json-1.1",
-            "x-amz-user-agent": self.AMZ_USER_AGENT,
-        }
+        super().__init__(
+            session=session,
+            access_key=access_key,
+            secret_key=secret_key,
+            token=token,
+            region=region,
+        )
 
         self.auth = None
-        self.region = region
-        self.session = Session(access_key, secret_key, token, region_name=self.region)
-
         self.service = service
         self.endpoint = endpoint
 
@@ -42,31 +61,30 @@ class AWSBaseClientMixin:
             session_token=credentials.token,
         )
 
-    def get(self, target):
+    def _headers(self, target, json_version, sdk_version):
+        self.headers = {
+            "accept": "*/*",
+            "content-type": f"application/x-amz-json-{json_version}",
+            "x-amz-user-agent": f"aws-sdk-js/{sdk_version} promise",
+            "x-amz-target": target,
+        }
+
+    def get(self, target, json_version=AMZ_JSON_VERSION, sdk_version=AWS_SDK_VERSION):
         assert self.endpoint is not None, "Endpoint must be set before making a request"
 
-        self.headers.update(
-            {
-                "x-amz-target": target,
-            }
-        )
+        self._headers(target, json_version, sdk_version)
+
         response = requests.get(self.endpoint, auth=self.auth, headers=self.headers)
         response.raise_for_status()
 
         return response.json()
 
-    def post(self, target, data, headers_override=None):
+    def post(
+        self, target, data, json_version=AMZ_JSON_VERSION, sdk_version=AWS_SDK_VERSION
+    ):
         assert self.endpoint is not None, "Endpoint must be set before making a request"
 
-        self.headers.update(
-            {
-                "x-amz-target": target,
-
-            }
-        )
-
-        if headers_override is not None:
-            self.headers.update(headers_override)
+        self._headers(target, json_version, sdk_version)
 
         response = requests.post(
             self.endpoint, auth=self.auth, headers=self.headers, json=data

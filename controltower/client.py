@@ -1,9 +1,11 @@
-from inia.client import AWSBaseClientMixin
+from inia.client import AWSCustomClientMixin
 
 
-class ControlTowerClient(AWSBaseClientMixin):
+class ControlTowerClient(AWSCustomClientMixin):
     def __init__(self, access_key, secret_key, token=None, region="eu-central-1"):
-        super().__init__(access_key, secret_key, token=token, region=region)
+        super().__init__(
+            access_key=access_key, secret_key=secret_key, token=token, region=region
+        )
 
         self.service = "controltower"
         self.endpoint = f"https://prod.{region}.blackbeard.aws.a2z.com/"

@@ -1,17 +1,78 @@
-from inia.client import AWSBaseClientMixin
+from inia.client import AWSBotoClientMixin, AWSCustomClientMixin
 
 
-class SingleSignOnClient(AWSBaseClientMixin):
-    def __init__(self, access_key, secret_key, token=None, region="eu-central-1"):
-        super().__init__(access_key, secret_key, token=token, region=region)
+class SSODirectoryClient(AWSCustomClientMixin):
+    def __init__(
+        self,
+        session=None,
+        access_key=None,
+        secret_key=None,
+        token=None,
+        region="eu-central-1",
+    ):
+        super().__init__(
+            session=session,
+            access_key=access_key,
+            secret_key=secret_key,
+            token=token,
+            region=region,
+        )
+
+        self.service = "sso-directory"
+        self.endpoint = f"https://pvs-controlplane.{region}.prod.authn.identity.aws.dev"
+
+        self._auth()
+
+    def verify_email(self, user_id, sso_id):
+        return self.post(
+            "AWSPasswordControlPlaneService.StartEmailVerification",
+            {"UserId": user_id, "IdentityStoreId": sso_id},
+            json_version="1.0",
+        )
+
+
+class UserPoolClient(AWSCustomClientMixin):
+    def __init__(
+        self,
+        session=None,
+        access_key=None,
+        secret_key=None,
+        token=None,
+        region="eu-central-1",
+    ):
+        super().__init__(
+            session=session,
+            access_key=access_key,
+            secret_key=secret_key,
+            token=token,
+            region=region,
+        )
 
         self.service = "userpool"
         self.endpoint = f"https://up.sso.{region}.amazonaws.com/"
 
         self._auth()
 
+    def describe_users(self, user_ids):
+        response = self.post("SWBUPService.DescribeUsers", {"UserIds": user_ids})
+        return response["Users"]
+
+    def update_password(self, user_id, mode="EMAIL"):
+        return self.post(
+            "SWBUPService.UpdatePassword", {"UserId": user_id, "PasswordMode": mode}
+        )
+
+
+class SingleSignOnClient(AWSBotoClientMixin):
+    def __init__(self, access_key, secret_key, token=None, region="eu-central-1"):
+        super().__init__(
+            access_key=access_key, secret_key=secret_key, token=token, region=region
+        )
+
         self.sso_admin = self.session.client("sso-admin")
         self.identitystore = self.session.client("identitystore")
+        self.userpool = UserPoolClient(session=self.session, region=region)
+        self.sso_directory = SSODirectoryClient(session=self.session, region=region)
 
     def list_instances(self):
         instances = []
@@ -131,17 +192,10 @@ class SingleSignOnClient(AWSBaseClientMixin):
         return memberships
 
     def describe_users(self, user_ids):
-        response = self.post("SWBUPService.DescribeUsers", {"UserIds": user_ids})
-        return response["Users"]
-
-    def verify_email(self, user_id, email_id):
-        response = self.post(
-            "SWBUPService.VerifyEmail", {"UserId": user_id, "EmailId": email_id}
-        )
-        return response
+        return self.userpool.describe_users(user_ids)
 
     def update_password(self, user_id, mode="EMAIL"):
-        response = self.post(
-            "SWBUPService.UpdatePassword", {"UserId": user_id, "PasswordMode": mode}
-        )
-        return response
+        return self.userpool.update_password(user_id, mode)
+
+    def verify_email(self, user_id, sso_id):
+        return self.sso_directory.verify_email(user_id, sso_id)

@@ -1,13 +1,12 @@
-from inia.client import AWSBaseClientMixin
+from inia.client import AWSBotoClientMixin
 
 
-class CostExplorerClient(AWSBaseClientMixin):
+class CostExplorerClient(AWSBotoClientMixin):
     def __init__(self, access_key, secret_key, token=None, region="eu-central-1"):
-        super().__init__(access_key, secret_key, token=token, region=region)
+        super().__init__(
+            access_key=access_key, secret_key=secret_key, token=token, region=region
+        )
 
-        self.service = "ce"
-        self.endpoint = f"https://ce.{region}.amazonaws.com/"
-        self._auth()
         self.ce = self.session.client("ce")
 
     def get_cost_and_usage(self, **kwargs):
