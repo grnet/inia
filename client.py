@@ -3,7 +3,7 @@ from boto3.session import Session
 from requests_aws4auth import AWS4Auth
 
 
-class AWSBotoSessionMixin:
+class AWSBotoClientMixin:
     def __init__(
         self,
         session=None,
@@ -21,7 +21,7 @@ class AWSBotoSessionMixin:
             )
 
 
-class AWSCustomClientMixin(AWSBotoSessionMixin):
+class AWSCustomClientMixin(AWSBotoClientMixin):
     AMZ_JSON_VERSION = "1.1"
     AWS_SDK_VERSION = "2.1467.0"
 
