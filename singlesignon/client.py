@@ -1,4 +1,81 @@
+import uuid
+
 from inia.client import AWSBotoClientMixin, AWSCustomClientMixin
+
+
+class SSOClient(AWSCustomClientMixin):
+    def __init__(
+        self,
+        access_key=None,
+        secret_key=None,
+        token=None,
+        region="eu-central-1",
+    ):
+        super().__init__(
+            access_key=access_key,
+            secret_key=secret_key,
+            token=token,
+            region=region,
+        )
+
+        self.service = "sso"
+        self.endpoint = f"https://sso.{region}.amazonaws.com/control/"
+
+        self._auth()
+
+    def list_application_templates(self, application_id):
+        return self.post(
+            "SWBService.ListApplicationTemplates",
+            {"applicationId": "app-520727d4117d1647"},
+        )
+
+    def create_application_instance(self, template_id, name):
+        return self.post(
+            "SWBService.CreateApplicationInstance",
+            {
+                "templateId": template_id,
+                "name": name,
+            },
+        )
+
+    def update_app_instance_display_data(self, description, display_name, instance_id):
+        return self.post(
+            "SWBService.UpdateApplicationInstanceDisplayData",
+            {
+                "description": description,
+                "displayName": display_name,
+                "instanceId": instance_id,
+            },
+        )
+
+    def update_app_instance_service_provider_config(
+        self, instance_id, service_provider_config
+    ):
+        return self.post(
+            "SWBService.UpdateApplicationInstanceServiceProviderConfiguration",
+            {
+                "instanceId": instance_id,
+                "serviceProviderConfig": service_provider_config,
+            },
+        )
+
+    def update_app_instance_response_config(self, instance_id, response_config):
+        return self.post(
+            "SWBService.UpdateApplicationInstanceResponseConfiguration",
+            {
+                "instanceId": instance_id,
+                "responseConfig": response_config,
+            },
+        )
+
+    def update_app_instance_status(self, instance_id, status):
+        return self.post(
+            "SWBService.UpdateApplicationInstanceStatus",
+            {
+                "instanceId": instance_id,
+                "status": status,
+            },
+        )
 
 
 class SSODirectoryClient(AWSCustomClientMixin):
