@@ -21,3 +21,5 @@ build-package:
   artifacts:
     paths:
       - dist/
+  only:
+    - pushes
