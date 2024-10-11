@@ -28,7 +28,7 @@ build-package:
 
 publish-to-package-registry:
   stage: publish
-  image: python:$PYTHON_VERSION
+  image: python:3.10
   script:
     - python -m venv venv
     - source venv/bin/activate
