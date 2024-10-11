@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import find_packages, setup
 
 setup(
     name="inia",
@@ -7,6 +7,6 @@ setup(
     author="GRNET DevOps",
     author_email="devops-rnd@grnet.gr",
     license="MIT",
-    packages=["inia"],
+    packages=find_packages(),
     zip_safe=False,
 )

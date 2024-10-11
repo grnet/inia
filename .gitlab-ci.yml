@@ -1,11 +1,10 @@
 stages:
   - build
-  - release
+  - publish
 
 variables:
-  PACKAGE_NAME: inia"
-  PYTHON_VERSION: "3.10"
-  GITLAB_REGISTRY: "https://gitlab.grnet.gr/api/v4/projects/1715/packages/pypi"
+  PACKAGE_NAME: "inia"
+  GITLAB_REGISTRY: "https://gitlab.grnet.gr/api/v4/projects/${CI_PROJECT_ID}/packages/pypi"
   GITLAB_TOKEN: $CI_JOB_TOKEN
 
 cache:
@@ -14,7 +13,7 @@ cache:
 
 build-package:
   stage: build
-  image: python:$PYTHON_VERSION
+  image: python:3.10
   script:
     - python -m venv venv
     - source venv/bin/activate
@@ -28,7 +27,7 @@ build-package:
     - pushes
 
 publish-to-package-registry:
-  stage: release
+  stage: publish
   image: python:$PYTHON_VERSION
   script:
     - python -m venv venv
@@ -43,7 +42,6 @@ publish-to-package-registry:
     - |
       echo "password: ${GITLAB_TOKEN}" >> ~/.pypirc
     - twine upload --repository gitlab dist/* --verbose
-    - build-package
-  # only:
-  #   - tags
+  only:
+    - tags
   when: manual
