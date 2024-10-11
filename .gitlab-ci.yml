@@ -5,7 +5,7 @@ stages:
 variables:
   PACKAGE_NAME: inia"
   PYTHON_VERSION: "3.10"
-  GITLAB_REGISTRY: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi"
+  GITLAB_REGISTRY: "https://gitlab.grnet.gr/api/v4/projects/1715/packages/pypi"
   GITLAB_TOKEN: $CI_JOB_TOKEN
 
 cache:
@@ -39,11 +39,11 @@ publish-to-package-registry:
     - echo "[gitlab]" >> ~/.pypirc
     - |
       echo "repository: ${GITLAB_REGISTRY}" >> ~/.pypirc
-      echo "username: __token__" >> ~/.pypirc
+      echo "username: gitlab-ci-token" >> ~/.pypirc
     - |
       echo "password: ${GITLAB_TOKEN}" >> ~/.pypirc
-    - twine upload --repository gitlab dist/*
+    - twine upload --repository gitlab dist/* --verbose
     - build-package
-  only:
-    - tags
+  # only:
+  #   - tags
   when: manual
