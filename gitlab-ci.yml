@@ -1,0 +1,23 @@
+stages:
+  - build
+
+variables:
+  PACKAGE_NAME: "inia"
+  PYTHON_VERSION: "3.10"
+
+cache:
+  paths:
+    - .cache/pip
+
+build-package:
+  stage: build
+  image: python:$PYTHON_VERSION
+  script:
+    - python -m venv venv
+    - source venv/bin/activate
+    - pip install --upgrade pip setuptools wheel
+    - pip install -r requirements.txt
+    - python setup.py sdist bdist_wheel
+  artifacts:
+    paths:
+      - dist/
