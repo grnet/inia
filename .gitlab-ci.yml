@@ -1,0 +1,46 @@
+stages:
+  - build
+  - publish
+
+variables:
+  PACKAGE_NAME: "inia"
+  GITLAB_REGISTRY: "https://gitlab.grnet.gr/api/v4/projects/${CI_PROJECT_ID}/packages/pypi"
+  GITLAB_TOKEN: $CI_JOB_TOKEN
+
+cache:
+  paths:
+    - .cache/pip
+
+build-package:
+  stage: build
+  image: python:3.10
+  script:
+    - python -m venv venv
+    - source venv/bin/activate
+    - pip install --upgrade pip setuptools wheel
+    - pip install -r requirements.txt
+    - python setup.py sdist bdist_wheel
+  artifacts:
+    paths:
+      - dist/
+  only:
+    - pushes
+
+publish-to-package-registry:
+  stage: publish
+  image: python:$PYTHON_VERSION
+  script:
+    - python -m venv venv
+    - source venv/bin/activate
+    - pip install --upgrade pip twine
+    - echo "[distutils]" > ~/.pypirc
+    - echo "index-servers = gitlab" >> ~/.pypirc
+    - echo "[gitlab]" >> ~/.pypirc
+    - |
+      echo "repository: ${GITLAB_REGISTRY}" >> ~/.pypirc
+      echo "username: gitlab-ci-token" >> ~/.pypirc
+    - |
+      echo "password: ${GITLAB_TOKEN}" >> ~/.pypirc
+    - twine upload --repository gitlab dist/* --verbose
+  only:
+    - tags
