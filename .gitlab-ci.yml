@@ -44,4 +44,3 @@ publish-to-package-registry:
     - twine upload --repository gitlab dist/* --verbose
   only:
     - tags
-  when: manual
