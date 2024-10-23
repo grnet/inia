@@ -4,14 +4,18 @@ from inia.client import AWSBotoClientMixin, AWSCustomClientMixin
 
 
 class SSOClient(AWSCustomClientMixin):
+    SAML_APP_ID = "app-520727d4117d1647"
+
     def __init__(
         self,
+        session=None,
         access_key=None,
         secret_key=None,
         token=None,
         region="eu-central-1",
     ):
         super().__init__(
+            session=session,
             access_key=access_key,
             secret_key=secret_key,
             token=token,
@@ -23,10 +27,39 @@ class SSOClient(AWSCustomClientMixin):
 
         self._auth()
 
+    def get_sso_configuration(self, instance_arn):
+        return self.post(
+            "SWBService.GetSsoConfiguration",
+            {"instanceArn": instance_arn},
+        )
+
+    def list_directory_associations(self, instance_arn):
+        return self.post(
+            "SWBService.ListDirectoryAssociations",
+            {"instanceArn": instance_arn},
+        )
+
+    def list_applications(self):
+        applications = []
+
+        payload = {}
+
+        while True:
+            response = self.post("SWBService.ListApplications", payload)
+            applications.extend(response["applications"])
+
+            marker = response.get("marker")
+            if not marker:
+                break
+
+            payload["marker"] = marker
+
+        return applications
+
     def list_application_templates(self, application_id):
         return self.post(
             "SWBService.ListApplicationTemplates",
-            {"applicationId": "app-520727d4117d1647"},
+            {"applicationId": application_id},
         )
 
     def create_application_instance(self, template_id, name):
@@ -141,9 +174,20 @@ class UserPoolClient(AWSCustomClientMixin):
 
 
 class SingleSignOnClient(AWSBotoClientMixin):
-    def __init__(self, access_key, secret_key, token=None, region="eu-central-1"):
+    def __init__(
+        self,
+        session=None,
+        access_key=None,
+        secret_key=None,
+        token=None,
+        region="eu-central-1",
+    ):
         super().__init__(
-            access_key=access_key, secret_key=secret_key, token=token, region=region
+            session=session,
+            access_key=access_key,
+            secret_key=secret_key,
+            token=token,
+            region=region,
         )
 
         self.sso_admin = self.session.client("sso-admin")

@@ -15,12 +15,14 @@ logger = logging.getLogger(__name__)
 class CloudFormationClient(AWSBotoClientMixin):
     def __init__(
         self,
+        session=None,
         access_key=None,
         secret_key=None,
         token=None,
         region="eu-central-1",
     ):
         super().__init__(
+            session=session,
             access_key=access_key,
             secret_key=secret_key,
             token=token,
@@ -38,7 +40,6 @@ class CloudFormationClient(AWSBotoClientMixin):
         force_upload=None,
         use_json=None,
     ):
-
         self.s3_client = self.session.client("s3")
 
         if not os.path.isfile(template_file):
