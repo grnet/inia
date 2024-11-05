@@ -55,6 +55,30 @@ class CloudFormationClient(AWSBotoClientMixin):
 
         return stacks
 
+    def describe_stack_resources(self, stack_name):
+        cloudformation = self.session.client("cloudformation")
+
+        resources = []
+        next_token = None
+
+        try:
+            response = cloudformation.describe_stack_resources(StackName=stack_name)
+            resources.extend(response["StackResources"])
+            next_token = response.get("NextToken", "")
+        except botocore.exceptions.ClientError as e:
+            if e.response["Error"]["Code"] == "ValidationError":
+                return None
+            raise e
+
+        while next_token:
+            response = cloudformation.describe_stack_resources(
+                StackName=stack_name, NextToken=next_token
+            )
+            resources.extend(response["StackResources"])
+            next_token = response.get("NextToken", "")
+
+        return resources
+
     def cloudformation_package(
         self,
         template_file,
