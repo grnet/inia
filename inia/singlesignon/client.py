@@ -101,30 +101,23 @@ class SSOClient(AWSCustomClientMixin):
             },
         )
 
+    def update_app_instance_response_schema_config(
+        self, instance_id, response_schema_config
+    ):
+        return self.post(
+            "SWBService.UpdateApplicationInstanceResponseSchemaConfiguration",
+            {
+                "instanceId": instance_id,
+                "responseSchemaConfig": response_schema_config,
+            },
+        )
+
     def update_app_instance_status(self, instance_id, status):
         return self.post(
             "SWBService.UpdateApplicationInstanceStatus",
             {
                 "instanceId": instance_id,
                 "status": status,
-            },
-        )
-
-    def update_app_response_config(self, instance_id, response_config):
-        return self.post(
-            "SWBService.UpdateApplicationInstanceResponseConfiguration",
-            {
-                "instanceId": instance_id,
-                "responseConfig": response_config,
-            },
-        )
-
-    def update_app_response_schema_config(self, instance_id, response_schema_config):
-        return self.post(
-            "SWBService.UpdateApplicationInstanceResponseSchemaConfiguration",
-            {
-                "instanceId": instance_id,
-                "responseSchemaConfig": response_schema_config,
             },
         )
 
