@@ -3,6 +3,8 @@ import logging
 import os
 import sys
 
+import botocore
+
 from awscli.customizations.cloudformation import exceptions
 from awscli.customizations.cloudformation.artifact_exporter import Template
 from awscli.customizations.cloudformation.yamlhelper import yaml_dump
@@ -28,6 +30,30 @@ class CloudFormationClient(AWSBotoClientMixin):
             token=token,
             region=region,
         )
+
+    def describe_stacks(self, stack_name):
+        cloudformation = self.session.client("cloudformation")
+
+        stacks = []
+        next_token = None
+
+        try:
+            response = cloudformation.describe_stacks(StackName=stack_name)
+            stacks.extend(response["Stacks"])
+            next_token = response.get("NextToken", "")
+        except botocore.exceptions.ClientError as e:
+            if e.response["Error"]["Code"] == "ValidationError":
+                return None
+            raise e
+
+        while next_token:
+            response = cloudformation.describe_stacks(
+                StackName=stack_name, NextToken=next_token
+            )
+            stacks.extend(response["Stacks"])
+            next_token = response.get("NextToken", "")
+
+        return stacks
 
     def cloudformation_package(
         self,
