@@ -56,6 +56,85 @@ class SSOClient(AWSCustomClientMixin):
 
         return applications
 
+    def list_application_instances(self, filter):
+        instances = []
+
+        payload = {
+            "filter": filter,
+        }
+
+        while True:
+            response = self.post("SWBService.ListApplicationInstances", payload)
+            instances.extend(response["applicationInstances"])
+
+            marker = response.get("marker")
+            if not marker:
+                break
+
+            payload["marker"] = marker
+
+        return instances
+
+    def list_instances(self):
+        instances = []
+
+        response = self.post("SWBExternalService.ListInstances", {})
+        instances.extend(response["Instances"])
+
+        return instances
+
+    def list_external_applications(self, payload={}):
+        applications = []
+
+        while True:
+            response = self.post("SWBExternalService.ListApplications", payload)
+            applications.extend(response["Applications"])
+
+            marker = response.get("marker")
+            if not marker:
+                break
+
+            payload["marker"] = marker
+
+        return applications
+
+    def list_profiles(self, instance_id):
+
+        payload = {
+            "instanceId": instance_id,
+        }
+
+        return self.post("SWBService.ListProfiles", payload)
+
+    def describe_application(self, application_arn):
+        return self.post(
+            "SWBExternalService.DescribeApplication",
+            {"ApplicationArn": application_arn},
+        )
+
+    def delete_profile(self, profile_id, instance_id):
+        return self.post(
+            "SWBService.DeleteProfile",
+            {
+                "profileId": profile_id,
+                "instanceId": instance_id,
+            },
+        )
+
+    def delete_application_instance(self, instance_id):
+        return self.post(
+            "SWBService.DeleteApplicationInstance",
+            {
+                "instanceId": instance_id,
+            },
+        )
+
+    def list_application_assignments(self, application_arn):
+        return self.post(
+            "SWBExternalService.ListApplicationAssignments",
+            {"ApplicationArn": application_arn},
+        )
+
     def list_application_templates(self, application_id):
         return self.post(
             "SWBService.ListApplicationTemplates",
