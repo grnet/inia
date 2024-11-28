@@ -1,93 +1,327 @@
-# inia
+<div align="left" style="position: relative;">
+<img src="https://img.icons8.com/external-tal-revivo-duo-tal-revivo/100/external-markdown-a-lightweight-markup-language-with-plain-text-formatting-syntax-logo-duo-tal-revivo.png" align="right" width="30%" style="margin: -20px 0 0 20px;">
+<h1>INIA</h1>
+<p align="left">
+	<em><code>❯ REPLACE-ME</code></em>
+</p>
+<p align="left">
+	<img src="https://img.shields.io/github/license/grnet/inia?style=default&logo=opensourceinitiative&logoColor=white&color=a181e0" alt="license">
+	<img src="https://img.shields.io/github/last-commit/grnet/inia?style=default&logo=git&logoColor=white&color=a181e0" alt="last-commit">
+	<img src="https://img.shields.io/github/languages/top/grnet/inia?style=default&color=a181e0" alt="repo-top-language">
+	<img src="https://img.shields.io/github/languages/count/grnet/inia?style=default&color=a181e0" alt="repo-language-count">
+</p>
+<p align="left"><!-- default option, no dependency badges. -->
+</p>
+<p align="left">
+	<!-- default option, no dependency badges. -->
+</p>
+</div>
+<br clear="right">
 
+## 🔗 Table of Contents
 
+- [📍 Overview](#-overview)
+- [👾 Features](#-features)
+- [📁 Project Structure](#-project-structure)
+  - [📂 Project Index](#-project-index)
+- [🚀 Getting Started](#-getting-started)
+  - [☑️ Prerequisites](#-prerequisites)
+  - [⚙️ Installation](#-installation)
+  - [🤖 Usage](#🤖-usage)
+  - [🧪 Testing](#🧪-testing)
+- [📌 Project Roadmap](#-project-roadmap)
+- [🔰 Contributing](#-contributing)
+- [🎗 License](#-license)
+- [🙌 Acknowledgments](#-acknowledgments)
 
-## Getting started
+---
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## 📍 Overview
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+<code>❯ REPLACE-ME</code>
 
-## Add your files
+---
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## 👾 Features
 
+<code>❯ REPLACE-ME</code>
+
+---
+
+## 📁 Project Structure
+
+```sh
+└── inia/
+    ├── .github
+    │   └── workflows
+    │       └── main.yml
+    ├── README.md
+    ├── inia
+    │   ├── __init__.py
+    │   ├── client.py
+    │   ├── cloudformation
+    │   │   ├── __init__.py
+    │   │   └── client.py
+    │   ├── codesuite
+    │   │   ├── __init__.py
+    │   │   └── client.py
+    │   ├── controltower
+    │   │   ├── __init__.py
+    │   │   └── client.py
+    │   ├── costexplorer
+    │   │   ├── __init__.py
+    │   │   └── client.py
+    │   ├── rackspace.py
+    │   ├── servicecatalog
+    │   │   ├── __init__.py
+    │   │   └── client.py
+    │   ├── singlesignon
+    │   │   ├── __init__.py
+    │   │   └── client.py
+    │   └── stepfunctions
+    │       ├── __init__.py
+    │       └── client.py
+    ├── requirements.txt
+    └── setup.py
 ```
-cd existing_repo
-git remote add origin https://gitlab.grnet.gr/devs/platform/inia.git
-git branch -M main
-git push -uf origin main
+
+### 📂 Project Index
+
+<details open>
+	<summary><b><code>INIA/</code></b></summary>
+	<details> <!-- __root__ Submodule -->
+		<summary><b>__root__</b></summary>
+		<blockquote>
+			<table>
+			<tr>
+				<td><b><a href='https://github.com/grnet/inia/blob/master/requirements.txt'>requirements.txt</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			<tr>
+				<td><b><a href='https://github.com/grnet/inia/blob/master/setup.py'>setup.py</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			</table>
+		</blockquote>
+	</details>
+	<details> <!-- .github Submodule -->
+		<summary><b>.github</b></summary>
+		<blockquote>
+			<details>
+				<summary><b>workflows</b></summary>
+				<blockquote>
+					<table>
+					<tr>
+						<td><b><a href='https://github.com/grnet/inia/blob/master/.github/workflows/main.yml'>main.yml</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					</table>
+				</blockquote>
+			</details>
+		</blockquote>
+	</details>
+	<details> <!-- inia Submodule -->
+		<summary><b>inia</b></summary>
+		<blockquote>
+			<table>
+			<tr>
+				<td><b><a href='https://github.com/grnet/inia/blob/master/inia/rackspace.py'>rackspace.py</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			<tr>
+				<td><b><a href='https://github.com/grnet/inia/blob/master/inia/client.py'>client.py</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			</table>
+			<details>
+				<summary><b>singlesignon</b></summary>
+				<blockquote>
+					<table>
+					<tr>
+						<td><b><a href='https://github.com/grnet/inia/blob/master/inia/singlesignon/client.py'>client.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					</table>
+				</blockquote>
+			</details>
+			<details>
+				<summary><b>costexplorer</b></summary>
+				<blockquote>
+					<table>
+					<tr>
+						<td><b><a href='https://github.com/grnet/inia/blob/master/inia/costexplorer/client.py'>client.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					</table>
+				</blockquote>
+			</details>
+			<details>
+				<summary><b>servicecatalog</b></summary>
+				<blockquote>
+					<table>
+					<tr>
+						<td><b><a href='https://github.com/grnet/inia/blob/master/inia/servicecatalog/client.py'>client.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					</table>
+				</blockquote>
+			</details>
+			<details>
+				<summary><b>cloudformation</b></summary>
+				<blockquote>
+					<table>
+					<tr>
+						<td><b><a href='https://github.com/grnet/inia/blob/master/inia/cloudformation/client.py'>client.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					</table>
+				</blockquote>
+			</details>
+			<details>
+				<summary><b>stepfunctions</b></summary>
+				<blockquote>
+					<table>
+					<tr>
+						<td><b><a href='https://github.com/grnet/inia/blob/master/inia/stepfunctions/client.py'>client.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					</table>
+				</blockquote>
+			</details>
+			<details>
+				<summary><b>controltower</b></summary>
+				<blockquote>
+					<table>
+					<tr>
+						<td><b><a href='https://github.com/grnet/inia/blob/master/inia/controltower/client.py'>client.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					</table>
+				</blockquote>
+			</details>
+			<details>
+				<summary><b>codesuite</b></summary>
+				<blockquote>
+					<table>
+					<tr>
+						<td><b><a href='https://github.com/grnet/inia/blob/master/inia/codesuite/client.py'>client.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					</table>
+				</blockquote>
+			</details>
+		</blockquote>
+	</details>
+</details>
+
+---
+
+## 🚀 Getting Started
+
+### ☑️ Prerequisites
+
+Before getting started with inia, ensure your runtime environment meets the following requirements:
+
+- **Programming Language:** Python
+- **Package Manager:** Pip
+
+### ⚙️ Installation
+
+Install inia using one of the following methods:
+
+**Build from source:**
+
+1. Clone the inia repository:
+
+```sh
+❯ git clone https://github.com/grnet/inia
 ```
 
-## Integrate with your tools
+2. Navigate to the project directory:
 
-- [ ] [Set up project integrations](https://gitlab.grnet.gr/devs/platform/inia/-/settings/integrations)
+```sh
+❯ cd inia
+```
 
-## Collaborate with your team
+3. Install the project dependencies:
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+**Using `pip`** &nbsp; [<img align="center" src="https://img.shields.io/badge/Pip-3776AB.svg?style={badge_style}&logo=pypi&logoColor=white" />](https://pypi.org/project/pip/)
 
-## Test and Deploy
+```sh
+❯ pip install -r requirements.txt
+```
 
-Use the built-in continuous integration in GitLab.
+### 🤖 Usage
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Run inia using the following command:
+**Using `pip`** &nbsp; [<img align="center" src="https://img.shields.io/badge/Pip-3776AB.svg?style={badge_style}&logo=pypi&logoColor=white" />](https://pypi.org/project/pip/)
 
-***
+```sh
+❯ python {entrypoint}
+```
 
-# Editing this README
+### 🧪 Testing
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Run the test suite using the following command:
+**Using `pip`** &nbsp; [<img align="center" src="https://img.shields.io/badge/Pip-3776AB.svg?style={badge_style}&logo=pypi&logoColor=white" />](https://pypi.org/project/pip/)
 
-## Suggestions for a good README
+```sh
+❯ pytest
+```
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+---
 
-## Name
-Choose a self-explaining name for your project.
+## 📌 Project Roadmap
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+TBD
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+---
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+## 🔰 Contributing
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+- **💬 [Join the Discussions](https://github.com/grnet/inia/discussions)**: Share your insights, provide feedback, or ask questions.
+- **🐛 [Report Issues](https://github.com/grnet/inia/issues)**: Submit bugs found or log feature requests for the `inia` project.
+- **💡 [Submit Pull Requests](https://github.com/grnet/inia/blob/main/CONTRIBUTING.md)**: Review open PRs, and submit your own PRs.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+<details closed>
+<summary>Contributing Guidelines</summary>
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+1. **Fork the Repository**: Start by forking the project repository to your github account.
+2. **Clone Locally**: Clone the forked repository to your local machine using a git client.
+   ```sh
+   git clone https://github.com/grnet/inia
+   ```
+3. **Create a New Branch**: Always work on a new branch, giving it a descriptive name.
+   ```sh
+   git checkout -b new-feature-x
+   ```
+4. **Make Your Changes**: Develop and test your changes locally.
+5. **Commit Your Changes**: Commit with a clear message describing your updates.
+   ```sh
+   git commit -m 'Implemented new feature x.'
+   ```
+6. **Push to github**: Push the changes to your forked repository.
+   ```sh
+   git push origin new-feature-x
+   ```
+7. **Submit a Pull Request**: Create a PR against the original project repository. Clearly describe the changes and their motivations.
+8. **Review**: Once your PR is reviewed and approved, it will be merged into the main branch. Congratulations on your contribution!
+</details>
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+<details closed>
+<summary>Contributor Graph</summary>
+<br>
+<p align="left">
+   <a href="https://github.com{/grnet/inia/}graphs/contributors">
+      <img src="https://contrib.rocks/image?repo=grnet/inia">
+   </a>
+</p>
+</details>
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+---
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+## 🎗 License
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+This project is protected under the [MIT](https://opensource.org/license/mit) License and [Apache 2.0](https://aws.amazon.com/apache-2-0/) License for the code imported from [awscli](https://github.com/aws/aws-cli).
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+---
