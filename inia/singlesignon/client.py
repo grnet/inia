@@ -201,6 +201,40 @@ class SSOClient(AWSCustomClientMixin):
         )
 
 
+class SSOIdentityStoreClient(AWSCustomClientMixin):
+    def __init__(
+        self,
+        session=None,
+        access_key=None,
+        secret_key=None,
+        token=None,
+        region="eu-central-1",
+    ):
+        super().__init__(
+            session=session,
+            access_key=access_key,
+            secret_key=secret_key,
+            token=token,
+            region=region,
+        )
+
+        self.service = "identitystore"
+        self.endpoint = "https://up.sso.eu-central-1.amazonaws.com/identitystore/"
+        self._auth()
+
+    def search_users(self, identity_store_id, filter):
+        response = self.post(
+            "AWSIdentityStoreService.SearchUsers",
+            {
+                "IdentityStoreId": identity_store_id,
+                "Filters": filter,
+                "MaxResults": 100,
+            },
+        )
+
+        return response["Users"]
+
+
 class SSODirectoryClient(AWSCustomClientMixin):
     def __init__(
         self,
@@ -249,7 +283,7 @@ class UserPoolClient(AWSCustomClientMixin):
         )
 
         self.service = "userpool"
-        self.endpoint = f"https://up.sso.{region}.amazonaws.com/"
+        self.endpoint = "https://up.sso.eu-central-1.amazonaws.com/"
 
         self._auth()
 
@@ -284,6 +318,9 @@ class SingleSignOnClient(AWSBotoClientMixin):
         self.identitystore = self.session.client("identitystore")
         self.userpool = UserPoolClient(session=self.session, region=region)
         self.sso_directory = SSODirectoryClient(session=self.session, region=region)
+        self.inia_identitystore = SSOIdentityStoreClient(
+            session=self.session, region=region
+        )
 
     def list_instances(self):
         instances = []
@@ -410,3 +447,6 @@ class SingleSignOnClient(AWSBotoClientMixin):
 
     def verify_email(self, user_id, sso_id):
         return self.sso_directory.verify_email(user_id, sso_id)
+
+    def search_users(self, identity_store_id, filter):
+        return self.inia_identitystore.search_users(identity_store_id, filter)
