@@ -12,4 +12,11 @@ setup(
     license="MIT",
     packages=find_packages(),
     zip_safe=False,
+    install_requires=[
+        # The boto version ranges are added to support usage in
+        # procloud! Be careful when updating these!
+        "boto3 <= 1.35.36, >= 1.26.149",
+        "botocore <= 1.35.36, >= 1.26.149",
+        "requests == 2.31.0",
+        "requests-aws4auth == 1.2.3", ],
 )
