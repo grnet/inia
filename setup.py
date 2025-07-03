@@ -17,6 +17,6 @@ setup(
         # procloud! Be careful when updating these!
         "boto3 ==  1.38.5",
         "botocore == 1.38.5",
-        "requests == 2.31.0",
-        "requests-aws4auth == 1.2.3", ],
+        "requests == 2.32.4",
+        "requests-aws4auth == 1.3.1", ],
 )
